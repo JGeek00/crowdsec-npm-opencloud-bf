@@ -1,0 +1,12 @@
+type: leaky
+name: jgeek00/npm-opencloud-bf
+description: "Detect Opencloud/LibreGraph bruteforce attempts via Nginx Proxy Manager logs"
+filter: "evt.Meta.log_type == 'http_access-log' && evt.Meta.http_verb == 'POST' && evt.Meta.http_status in ['204'] && evt.Meta.http_path == '/signin/v1/identifier/_/logon'"
+leakspeed: "10s"
+capacity: 5
+groupby: evt.Meta.source_ip
+blackhole: 1m
+labels:
+  service: opencloud
+  type: bruteforce
+  remediation: true
